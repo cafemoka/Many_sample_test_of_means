@@ -2,7 +2,7 @@
 
 ![many_sample_test_of_means](https://user-images.githubusercontent.com/54297018/66248007-e49cce80-e75c-11e9-8785-f3fec6c022d3.png)
 
-# Analysis of Variance (ANOVA) 
+# 1. Analysis of Variance (ANOVA) 
 
 ![Screen Shot 2019-10-05 at 11 10 03 AM](https://user-images.githubusercontent.com/54297018/66248343-cc2eb300-e760-11e9-8308-3a0cdf57ef49.png)
 
@@ -140,5 +140,18 @@ ans =
 
 The null hypothesis is accepted. There is no difference between the grades of five classes. 
 
+
+
+# 2. Kruskal-Wallis test
+
+The Kruskal-Wallis test is one-way ANOVA on ranks and the extended version of the Wilcoxon ranksum test (Mann-Whitney U test). 
+The procedure of Kruskal-Wallis test is similar to Wilcoxon ranksum test. 
+
+1. Assign ranks on all elements of the given data
+2. Average ranks in each group
+3. Estimate test statistic
+![H](https://user-images.githubusercontent.com/54297018/66248579-3f392900-e763-11e9-98e2-cd485d34c923.png)
+4. Estimate test distribution 
+5. Estimate p-value 
 
 

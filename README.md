@@ -1,6 +1,12 @@
 # Many sample test of means
 
-![many_sample_test_of_means](https://user-images.githubusercontent.com/54297018/66248007-e49cce80-e75c-11e9-8785-f3fec6c022d3.png)
+Given g groups, 
+
+Null hypothesis: ![null_hypothesis_many_samples](https://user-images.githubusercontent.com/54297018/66250211-7bc44f00-e77a-11e9-8f7a-8b2d0c1ce075.png)
+
+Parametric test: Analysis of variance (ANOVA) 
+Nonparametric test: Kruskal-Wallis test 
+
 
 # 1. Analysis of Variance (ANOVA) 
 
@@ -34,6 +40,7 @@ p =
     
 Check the elements in the output 'tbl'. 
 
+
 ```Matlab 
 
 % Check the elements in the output 'tbl' 
@@ -51,57 +58,40 @@ barxi = mean(grades,1);
 s2A = sum(n.*((barxi - barx).^2)); 
 % Check s2A and the element of tbl 
 [s2A tbl{2,2}]
-
-% degrees of freedom in across 
-df_across = g - 1; 
-% Check df_across and the element of tbl 
-[df_across tbl{2,3}] 
-
-% Divide by df_across 
-s2A = s2A/df_across; 
-% Check 
-[s2A tbl{2,4}] 
-
-% 2. Estimate within-group sample variance 
-s2W = sum(sum((grades - repmat(barxi,[n(1) 1])).^2)); 
-% Check s2W and the element of tbl 
-[s2W tbl{3,2}]
-
-% degrees of freedom in between 
-df_between = sum(n - 1); 
-% Check df_across and the element of tbl 
-[df_between tbl{3,3}] 
-
-% Divide by df_between 
-s2W = s2W/df_between; 
-% Check 
-[s2W tbl{3,4}] 
-
-% 3. Estimate test statistic 
-F = s2A/s2W; 
-% Check 
-[F tbl{2,5}] 
-``` 
-
->> [s2A tbl{2,2}]
+```
 
 ans =
 
     0.1600    0.1600
 
->> [df_across tbl{2,3}]
+```Matlab 
+% degrees of freedom in across 
+df_across = g - 1; 
+% Check df_across and the element of tbl 
+[df_across tbl{2,3}] 
+``` 
 
 ans =
 
      4     4
      
->> [s2A tbl{2,4}]
+```Matlab 
+% Divide by df_across 
+s2A = s2A/df_across; 
+% Check 
+[s2A tbl{2,4}] 
+```
 
 ans =
 
     0.0400    0.0400
 
->> [s2W tbl{3,2}]
+```Matlab
+% 2. Estimate within-group sample variance 
+s2W = sum(sum((grades - repmat(barxi,[n(1) 1])).^2)); 
+% Check s2W and the element of tbl 
+[s2W tbl{3,2}]
+```
 
 ans =
 
@@ -109,21 +99,38 @@ ans =
 
     3.2808    3.2808
     
->> [df_between tbl{3,3}]
+
+```Matlab 
+% degrees of freedom in between 
+df_between = sum(n - 1); 
+% Check df_across and the element of tbl 
+[df_between tbl{3,3}] 
+```
 
 ans =
 
    595   595
    
 
->> [s2W tbl{3,4}]
+```Matlab 
+% Divide by df_between 
+s2W = s2W/df_between; 
+% Check 
+[s2W tbl{3,4}] 
+```
 
 ans =
 
    55.1392   55.1392
    
    
->> [F tbl{2,5}]
+
+```Matlab 
+% 3. Estimate test statistic 
+F = s2A/s2W; 
+% Check 
+[F tbl{2,5}] 
+``` 
 
 ans =
 
@@ -131,7 +138,12 @@ ans =
 
     0.7254    0.7254
 
->> [p myp]
+```Matlab 
+% 4. Estimate p-value 
+myp = fcdf(F,g-1,sum(n)-1,'upper'); 
+% Check pvalues 
+[p myp] 
+``` 
 
 ans =
 

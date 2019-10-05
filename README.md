@@ -1,1 +1,144 @@
-# Many_sample_test_of_means
+# Many sample test of means
+
+![many_sample_test_of_means](https://user-images.githubusercontent.com/54297018/66248007-e49cce80-e75c-11e9-8785-f3fec6c022d3.png)
+
+# Analysis of Variance (ANOVA) 
+
+![Screen Shot 2019-10-05 at 11 10 03 AM](https://user-images.githubusercontent.com/54297018/66248343-cc2eb300-e760-11e9-8308-3a0cdf57ef49.png)
+
+Suppose we have midterm scores of five classes. Each class has 120 students. 
+We will test whether the score distributions of 5 classes are the same by ANOVA. 
+
+
+```Matlab 
+clear all; 
+
+% load the dataset 
+% 'grades' has 5 columns and 120 rows. 
+% Each row represents a student, and each column represents a class. 
+grades = load('grades.txt'); 
+
+% Perform ANOVA 
+[p,tbl] = anova1(grades); 
+``` 
+
+![anova_result1](https://user-images.githubusercontent.com/54297018/66248064-aa7ffc80-e75d-11e9-9341-afc4c50e39e2.png)
+![anova_result2](https://user-images.githubusercontent.com/54297018/66248074-c388ad80-e75d-11e9-936a-668da47ae282.png)
+
+>> p
+
+p =
+
+    1.0000
+    
+    
+Check the elements in the output 'tbl'. 
+
+```Matlab 
+
+% Check the elements in the output 'tbl' 
+% 1. Estimate across-group sample variance 
+% the number of groups 
+g = 5; 
+% the number of samples in a group
+% all groups have 120 samples. 
+n = size(grades,1)*ones(1,5); 
+% Estimate the mean of all grades 
+barx = mean(grades(:)); 
+% Estimate the mean of each group 
+barxi = mean(grades,1); 
+% Estimate across-group sample variance 
+s2A = sum(n.*((barxi - barx).^2)); 
+% Check s2A and the element of tbl 
+[s2A tbl{2,2}]
+
+% degrees of freedom in across 
+df_across = g - 1; 
+% Check df_across and the element of tbl 
+[df_across tbl{2,3}] 
+
+% Divide by df_across 
+s2A = s2A/df_across; 
+% Check 
+[s2A tbl{2,4}] 
+
+% 2. Estimate within-group sample variance 
+s2W = sum(sum((grades - repmat(barxi,[n(1) 1])).^2)); 
+% Check s2W and the element of tbl 
+[s2W tbl{3,2}]
+
+% degrees of freedom in between 
+df_between = sum(n - 1); 
+% Check df_across and the element of tbl 
+[df_between tbl{3,3}] 
+
+% Divide by df_between 
+s2W = s2W/df_between; 
+% Check 
+[s2W tbl{3,4}] 
+
+% 3. Estimate test statistic 
+F = s2A/s2W; 
+% Check 
+[F tbl{2,5}] 
+``` 
+
+>> [s2A tbl{2,2}]
+
+ans =
+
+    0.1600    0.1600
+
+>> [df_across tbl{2,3}]
+
+ans =
+
+     4     4
+     
+>> [s2A tbl{2,4}]
+
+ans =
+
+    0.0400    0.0400
+
+>> [s2W tbl{3,2}]
+
+ans =
+
+   1.0e+04 *
+
+    3.2808    3.2808
+    
+>> [df_between tbl{3,3}]
+
+ans =
+
+   595   595
+   
+
+>> [s2W tbl{3,4}]
+
+ans =
+
+   55.1392   55.1392
+   
+   
+>> [F tbl{2,5}]
+
+ans =
+
+   1.0e-03 *
+
+    0.7254    0.7254
+
+>> [p myp]
+
+ans =
+
+    1.0000    1.0000
+    
+
+The null hypothesis is accepted. There is no difference between the grades of five classes. 
+
+
+

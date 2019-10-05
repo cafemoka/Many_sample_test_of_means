@@ -155,3 +155,11 @@ The procedure of Kruskal-Wallis test is similar to Wilcoxon ranksum test.
 5. Estimate p-value 
 
 
+The following example is from https://dermabae.tistory.com/168, https://en.wikipedia.org/wiki/Kruskal–Wallis_one-way_analysis_of_variance#cite_note-Laerd-1. 
+
+![Screen Shot 2019-10-05 at 11 32 06 AM](https://user-images.githubusercontent.com/54297018/66248610-d605e580-e763-11e9-8a07-a116886896a7.png)
+![Screen Shot 2019-10-05 at 11 32 16 AM](https://user-images.githubusercontent.com/54297018/66248625-19605400-e764-11e9-9a85-0a78cb20a1d8.png)
+
+
+```Matlab 
+

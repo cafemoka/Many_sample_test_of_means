@@ -167,6 +167,7 @@ The procedure of Kruskal-Wallis test is similar to Wilcoxon ranksum test.
 3. Estimate test statistic
 
 ![H](https://user-images.githubusercontent.com/54297018/66248579-3f392900-e763-11e9-98e2-cd485d34c923.png)
+
 4. Estimate test distribution 
 5. Estimate p-value 
 

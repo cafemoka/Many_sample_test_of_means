@@ -2,13 +2,13 @@
 
 Given g groups, 
 
-Null hypothesis: 
+- Null hypothesis: 
 
 ![null_hypothesis_many_samples](https://user-images.githubusercontent.com/54297018/66250211-7bc44f00-e77a-11e9-8f7a-8b2d0c1ce075.png)
 
-Parametric test: Analysis of variance (ANOVA) 
+- Parametric test: Analysis of variance (ANOVA) 
 
-Nonparametric test: Kruskal-Wallis test 
+- Nonparametric test: Kruskal-Wallis test 
 
 
 # 1. Analysis of Variance (ANOVA) 

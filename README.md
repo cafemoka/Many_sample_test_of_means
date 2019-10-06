@@ -165,13 +165,89 @@ The procedure of Kruskal-Wallis test is similar to Wilcoxon ranksum test.
 1. Assign ranks on all elements of the given data
 2. Average ranks in each group
 3. Estimate test statistic
+
 ![H](https://user-images.githubusercontent.com/54297018/66248579-3f392900-e763-11e9-98e2-cd485d34c923.png)
 4. Estimate test distribution 
 5. Estimate p-value 
 
 
-The following example is from https://dermabae.tistory.com/168, https://en.wikipedia.org/wiki/Kruskal–Wallis_one-way_analysis_of_variance#cite_note-Laerd-1. 
+```Matlab 
+% Kruskal-Wallis test 
+data = [27 25 21 23 22 24 25 25 18 19 20 23 19 23 19 18 18 17]; 
+group = [1 1 1 1 1 1 2 2 2 2 2 2 3 3 3 3 3 3]; 
 
+[p_kw,tbl_kw] = kruskalwallis(data,group); 
+``` 
+
+![kruskal_wallis_result1](https://user-images.githubusercontent.com/54297018/66262689-1a56bb80-e820-11e9-9249-555450228c48.png)
+![kruskal_wallis_result2](https://user-images.githubusercontent.com/54297018/66262694-2e022200-e820-11e9-8d7e-fe205fc70969.png)
+
+
+Check the results in 'tbl_kw'. 
+The 'tbl_kw' is similar to the result of ANOVA on ranks. 
+So, we estimate the rank of data first. 
+
+```Matlab
+% 1. Estimate the rank of samples 
+% the number of samples 
+n = length(data); 
+% Sorting the data in the ascending order of elements 
+[tval,tind] = sort(data,'ascend'); 
+[val,ia] = unique(tval); 
+
+% rerank for elements with the same value
+orank = [1:n]; 
+rrank = zeros(1,n);
+for i = 1:length(ia), 
+    if i < length(ia), 
+        rrank(ia(i):(ia(i+1)-1)) = mean(orank(ia(i):(ia(i+1)-1))); 
+    else
+        rrank(ia(i):n) = mean(orank(ia(i):n));
+    end 
+end
+rank_data = zeros(1,n);
+rank_data(tind) = rrank;
+
+% Compare with tbl_anova obtained by ANOVA on ranks  
+[panova,tbl_anova] = anova1(rank_data,group);
+
+[tbl_kw; tbl_anova] 
+``` 
+
+ans =
+
+  8×6 cell 배열
+
+    {'요인'}    {'SS'      }    {'df'}    {'MS'      }    {'카이제곱' }    {'확률>카이제곱'}
+    {'그룹'}    {[196.0000]}    {[ 2]}    {[ 98.0000]}    {[  6.9927]}    {[     0.0303]}
+    {'오차'}    {[280.5000]}    {[15]}    {[ 18.7000]}    {0×0 double}    {0×0 double   }
+    {'총계'}    {[476.5000]}    {[17]}    {0×0 double}    {0×0 double}    {0×0 double   }
+    {'요인'}    {'SS'      }    {'df'}    {'MS'      }    {'F'       }    {'확률>F'     }
+    {'그룹'}    {[     196]}    {[ 2]}    {[      98]}    {[  5.2406]}    {[     0.0188]}
+    {'오차'}    {[280.5000]}    {[15]}    {[ 18.7000]}    {0×0 double}    {0×0 double   }
+    {'총계'}    {[476.5000]}    {[17]}    {0×0 double}    {0×0 double}    {0×0 double   }
+    
+    
+The 'SS', 'df', and 'MS' are the same in 'tbl_kw' and 'tbl_anova'. 
+But the test distributions are '카이제곱' in tbl_kw and 'F' in tbl_anova. 
+This is because Kruskal-Wallis test does not assume that the data follows Gaussian distribution. 
+Like Wilcoxon ranksum test, we can estimate all possible combinations of data by rearranging the group labels of the ranks of data. 
+The number of all possible combinations were 
+
+nchoosek(18,6)*nchoosek(12,6)/3! = 2,858,856. 
+
+When I tried this, it took me one night. 
+The exact test distribution of H under the null hypothesis that all groups have the same mean was as follows: 
+
+![distribution_H](https://user-images.githubusercontent.com/54297018/66262742-be8d3200-e821-11e9-96a9-44a7661f4d25.png)
+
+
+The matlab function 'kruskalwallis' does not use the exact test distribution, but use approximated test distribution by 카이제곱. 
+The p-value obtained by the matlab function 'kruskalwallis', 'p_kw' was 0.0303. Therefore, the null hypothesis is rejected, and three groups have different distribution. 
+
+The example of Kruskal-Wallis test is from https://dermabae.tistory.com/168, https://en.wikipedia.org/wiki/Kruskal–Wallis_one-way_analysis_of_variance#cite_note-Laerd-1. 
+
+You can see detailed explanation in the following slides. 
 ![Screen Shot 2019-10-05 at 11 32 06 AM](https://user-images.githubusercontent.com/54297018/66248610-d605e580-e763-11e9-8a07-a116886896a7.png)
 ![Screen Shot 2019-10-05 at 11 32 16 AM](https://user-images.githubusercontent.com/54297018/66248625-19605400-e764-11e9-9a85-0a78cb20a1d8.png)
 
